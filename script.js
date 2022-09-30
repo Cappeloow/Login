@@ -72,31 +72,57 @@ const users = [
 {account:"trovald",password:"525252" },
 ];
 
-
+/****lET THE USER PUSH ACC AND PASS***/
 function createAccount(acc,password){
   users.push({account:acc, password:password});
 }
-
+/*******JUST PRESS THE BUTTON AFTER INPUTS */
 buttonSubmit.addEventListener("click",function(){
   createAccount(createAcc.value, createPass.value);
 });
 
+/*****LOOP THROUGH ARRAY OF OBJECTS TO FIND THE RIGHT USER****/
 
+function searchUser (){
+
+  const inputAcc = accountInput.value;
+  const inputPass = passwordInput.value;
+
+  for(var i = 0; i<users.length; i++)
+  {
+    if (inputAcc === users[i].account && inputPass === users[i].password)
+      {
+        const loggedIn = users[i].account; 
+        LoggedIn(loggedIn);    
+        return;
+       
+      } 
+  }
+  accountInput.value = "";
+  passwordInput.value = "";
+  /*********IF IT'S NOT FOUND WRONG PASSWORD***********/
+  wrong.innerHTML ="Wrong Password";
+}
 
 /****lOGGEDIN**/
 function LoggedIn(name){
   headerLogin.innerHTML =  `Welcome ${name}`;
   button.innerHTML = "Log Out";
-  accountInput.remove();
-  passwordInput.remove();
-  paragrafs[1].remove();
+  accountInput.style.display ="none";
+  passwordInput.style.display="none";
+  paragrafs[1].style.display="none";
   paragrafs[0].innerHTML = "ENJOY YOUR STAY";
-  wrong.remove();
+  wrong.style.display="none";
 }
+/******LOGGEDOUT*****/
 function ToLogout(){
   headerLogin.innerHTML = "Please log in";
   button.innerHTML = "Log In";
-  accountInput.active();
+  accountInput.style.display ="block";
+  passwordInput.style.display ="block";
+  paragrafs[1].style.display="block";
+  paragrafs[0].innerHTML = "Password";
+  wrong.style.display="block";
 }
 
 
@@ -107,26 +133,15 @@ divLogin.appendChild(wrong);
 
 
 button.addEventListener("click", function(){
-  const inputAcc = accountInput.value;
-  const inputPass = passwordInput.value;
+  
   
   if(button.innerHTML==="Log In")
   {
-    for(var i = 0; i<users.length; i++)
-    {
-      if (inputAcc === users[i].account && inputPass === users[i].password)
-        {
-          const loggedIn = users[i].account; 
-          LoggedIn(loggedIn);    
-          
-          /***SKRIV ISTÄLLET UT CONST HÄR SOM ÄR HÖGST UPPE??***/
-        } 
-    }
-    wrong.innerHTML ="Wrong Password";  
+   searchUser();
   } 
   else if (button.innerHTML ==="Log Out")
   {
-    console.log("help");
+    ToLogout();
   }
 });
 
