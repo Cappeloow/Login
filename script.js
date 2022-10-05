@@ -3,13 +3,13 @@
 G KRAV
 Ditt projekt skall kunna testas online via tex github pages. (10p) ///////DONE
 
-Sidan visar dynamiskt rätt innehåll hela tiden. (10p)
+Sidan visar dynamiskt rätt innehåll hela tiden. (10p) ///////////DONE
 
 Det går att logga in. (10p) ///////////DONE
 
 Inloggning sparas i localStorage, dvs det skall gå att ladda om webbläsaren och sidan kommer ihåg att man är inloggad och visar rätt vy. (20p)
 
-Det går att logga ut. (10p)
+Det går att logga ut. (10p)/////DONE
 
 VG KRAV
 Det skall finnas fler användare (med unika lösenord), dokumentera de andra användarna inför test i readme.md (10p) ////////////DONE
@@ -17,7 +17,7 @@ Det skall finnas fler användare (med unika lösenord), dokumentera de andra anv
 Välkomstsidan skall dynamiskt visa rätt användarnamn beroende på vem som är inloggad. (10p) ///////////DONE
 
 Det skall gå att skapa och logga in med en ny användare (Då skall ett nytt formulär för detta visas på innehålls-sidan) Du skall då 
-använda localStorage som databas för användare. (20p)
+använda localStorage som databas för användare. (20p) 
 
 
 Menyn skall alltid visas och ändras dynamiskt för att visa rätt innehåll:
@@ -58,8 +58,12 @@ const passwordInput = document.querySelector("#pass")
 const headerLogin = document.querySelector("h2");
 const paragrafs = document.querySelectorAll("p");
 
+const storeInput = localStorage.getItem("account");
+
 
 /*CREATE ACCOUNTS*/
+const divForCreate = document.querySelector(".createAccount");
+
 const createAcc = document.querySelector("#chooseAcc");
 const createPass = document.querySelector("#choosePass");
 const buttonSubmit = document.querySelector(".submit");
@@ -72,13 +76,20 @@ const users = [
 {account:"trovald",password:"525252" },
 ];
 
+
+
 /****lET THE USER PUSH ACC AND PASS***/
 function createAccount(acc,password){
   users.push({account:acc, password:password});
 }
+const accDone= document.createElement("p");
 /*******JUST PRESS THE BUTTON AFTER INPUTS */
 buttonSubmit.addEventListener("click",function(){
   createAccount(createAcc.value, createPass.value);
+  createAcc.value ="";
+  createPass.value ="";
+  divForCreate.appendChild(accDone);
+  accDone.innerHTML = "Well Done";
 });
 
 /*****LOOP THROUGH ARRAY OF OBJECTS TO FIND THE RIGHT USER****/
@@ -93,9 +104,8 @@ function searchUser (){
     if (inputAcc === users[i].account && inputPass === users[i].password)
       {
         const loggedIn = users[i].account; 
-        LoggedIn(loggedIn);    
+        LoggedIn(loggedIn); 
         return;
-       
       } 
   }
   accountInput.value = "";
@@ -104,7 +114,7 @@ function searchUser (){
   wrong.innerHTML ="Wrong Password";
 }
 
-/****lOGGEDIN**/
+/****lOGGEDIN AND DISPLAYING USER**/
 function LoggedIn(name){
   headerLogin.innerHTML =  `Welcome ${name}`;
   button.innerHTML = "Log Out";
@@ -113,6 +123,8 @@ function LoggedIn(name){
   paragrafs[1].style.display="none";
   paragrafs[0].innerHTML = "ENJOY YOUR STAY";
   wrong.style.display="none";
+  divForCreate.style.display="none";
+  
 }
 /******LOGGEDOUT*****/
 function ToLogout(){
@@ -123,9 +135,13 @@ function ToLogout(){
   paragrafs[1].style.display="block";
   paragrafs[0].innerHTML = "Password";
   wrong.style.display="block";
+  divForCreate.style.display="inline";
+  localStorage.clear();
 }
 
-
+function saveLocal(){
+  localStorage.setItem("account", headerLogin.textContent);
+}
 
 
 const wrong = document.createElement("p"); 
@@ -137,14 +153,25 @@ button.addEventListener("click", function(){
   
   if(button.innerHTML==="Log In")
   {
-   searchUser();
+    searchUser();
+
+    saveLocal();
   } 
   else if (button.innerHTML ==="Log Out")
   {
     ToLogout();
+
   }
+
+   
 });
-
-
-
-
+if(accountInput) {
+  headerLogin.textContent = storeInput;
+  button.innerHTML = "Log Out";
+  accountInput.style.display ="none";
+  passwordInput.style.display="none";
+  paragrafs[1].style.display="none";
+  paragrafs[0].innerHTML = "ENJOY YOUR STAY";
+  wrong.style.display="none";
+  divForCreate.style.display="none";
+  }  
