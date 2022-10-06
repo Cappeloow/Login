@@ -58,7 +58,7 @@ const passwordInput = document.querySelector("#pass")
 const headerLogin = document.querySelector("h2");
 const paragrafs = document.querySelectorAll("p");
 
-const storeInput = localStorage.getItem("account");
+
 
 
 /*CREATE ACCOUNTS*/
@@ -68,13 +68,26 @@ const createAcc = document.querySelector("#chooseAcc");
 const createPass = document.querySelector("#choosePass");
 const buttonSubmit = document.querySelector(".submit");
 
+const wrong = document.createElement("p"); 
+divLogin.appendChild(wrong);
+
+const accDone= document.createElement("p");
 
 const users = [
-{account:"casper",password:"123456" },
-{account:"jonas",password:"242424" },
-{account:"erik",password:"252252" },
-{account:"trovald",password:"525252" },
+  {account:"casper",password:"123456" },
+  {account:"jonas",password:"242424" },
+  {account:"erik",password:"252252" },
+  {account:"trovald",password:"525252" },
 ];
+
+/********Localstorage***********/
+function inIt(){
+  if(localStorage.getItem("Users")){
+    LoggedIn();
+  }
+}
+
+inIt();
 
 
 
@@ -82,7 +95,8 @@ const users = [
 function createAccount(acc,password){
   users.push({account:acc, password:password});
 }
-const accDone= document.createElement("p");
+
+
 /*******JUST PRESS THE BUTTON AFTER INPUTS */
 buttonSubmit.addEventListener("click",function(){
   createAccount(createAcc.value, createPass.value);
@@ -104,7 +118,8 @@ function searchUser (){
     if (inputAcc === users[i].account && inputPass === users[i].password)
       {
         const loggedIn = users[i].account; 
-        LoggedIn(loggedIn); 
+        localStorage.setItem("Users", loggedIn);
+        LoggedIn(); 
         return;
       } 
   }
@@ -115,8 +130,9 @@ function searchUser (){
 }
 
 /****lOGGEDIN AND DISPLAYING USER**/
-function LoggedIn(name){
-  headerLogin.innerHTML =  `Welcome ${name}`;
+function LoggedIn(){
+  const userName = localStorage.getItem("Users");
+  headerLogin.innerHTML =  userName;
   button.innerHTML = "Log Out";
   accountInput.style.display ="none";
   passwordInput.style.display="none";
@@ -125,7 +141,9 @@ function LoggedIn(name){
   wrong.style.display="none";
   divForCreate.style.display="none";
   
+  
 }
+
 /******LOGGEDOUT*****/
 function ToLogout(){
   headerLogin.innerHTML = "Please log in";
@@ -136,16 +154,11 @@ function ToLogout(){
   paragrafs[0].innerHTML = "Password";
   wrong.style.display="block";
   divForCreate.style.display="inline";
-  localStorage.clear();
-}
-
-function saveLocal(){
-  localStorage.setItem("account", headerLogin.textContent);
+  localStorage.removeItem("Users");
 }
 
 
-const wrong = document.createElement("p"); 
-divLogin.appendChild(wrong);
+
 
 
 button.addEventListener("click", function(){
@@ -154,24 +167,14 @@ button.addEventListener("click", function(){
   if(button.innerHTML==="Log In")
   {
     searchUser();
-
-    saveLocal();
   } 
   else if (button.innerHTML ==="Log Out")
   {
     ToLogout();
+    
 
   }
 
    
 });
-if(accountInput) {
-  headerLogin.textContent = storeInput;
-  button.innerHTML = "Log Out";
-  accountInput.style.display ="none";
-  passwordInput.style.display="none";
-  paragrafs[1].style.display="none";
-  paragrafs[0].innerHTML = "ENJOY YOUR STAY";
-  wrong.style.display="none";
-  divForCreate.style.display="none";
-  }  
+
