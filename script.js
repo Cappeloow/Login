@@ -140,7 +140,8 @@ function LoggedIn(){
   paragrafs[0].innerHTML = "ENJOY YOUR STAY";
   wrong.style.display="none";
   divForCreate.style.display="none";
-  
+  accountInput.value ="";
+  passwordInput.value ="";
   
 }
 
