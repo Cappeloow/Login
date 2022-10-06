@@ -7,7 +7,7 @@ Sidan visar dynamiskt rätt innehåll hela tiden. (10p) ///////////DONE
 
 Det går att logga in. (10p) ///////////DONE
 
-Inloggning sparas i localStorage, dvs det skall gå att ladda om webbläsaren och sidan kommer ihåg att man är inloggad och visar rätt vy. (20p)
+Inloggning sparas i localStorage, dvs det skall gå att ladda om webbläsaren och sidan kommer ihåg att man är inloggad och visar rätt vy. (20p) //done
 
 Det går att logga ut. (10p)/////DONE
 
@@ -38,7 +38,7 @@ PSEUDOCODE:
 // om det är sant så går vi vidare till nästa steg
 // vi lägger till namn på personen som är inloggad
 // vi gör en push function in i array för att lägga till fler namn.
-//create a logout buttong and remove the input formular, paragraphs ~~
+//create a logout button and remove the input formular, paragraphs ~~
 //om det är falskt så skriver vi fel password or username
 
 
@@ -80,14 +80,14 @@ const users = [
   {account:"trovald",password:"525252" },
 ];
 
-/********Localstorage***********/
+/********Localstorage******if we called the get getItem, then we want to save loggedIn *****/
 function inIt(){
   if(localStorage.getItem("Users")){
     LoggedIn();
   }
 }
 
-inIt();
+
 
 
 
@@ -118,6 +118,7 @@ function searchUser (){
     if (inputAcc === users[i].account && inputPass === users[i].password)
       {
         const loggedIn = users[i].account; 
+        /******SAVE THE VALUE OF LOGGED IN******/
         localStorage.setItem("Users", loggedIn);
         LoggedIn(); 
         return;
@@ -131,7 +132,9 @@ function searchUser (){
 
 /****lOGGEDIN AND DISPLAYING USER**/
 function LoggedIn(){
+  /***********GET THE VALUE OF LOCALESTORAGE----USERNAME*********/
   const userName = localStorage.getItem("Users");
+  /***************************/
   headerLogin.innerHTML =  userName;
   button.innerHTML = "Log Out";
   accountInput.style.display ="none";
@@ -179,3 +182,6 @@ button.addEventListener("click", function(){
    
 });
 
+
+/*******MY function  if localStorage.getitem ********/
+inIt();
