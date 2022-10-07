@@ -80,6 +80,7 @@ const users = [
   {account:"trovald",password:"525252" },
 ];
 
+
 /********Localstorage******if we called the get getItem, then we want to save loggedIn *****/
 function inIt(){
   if(localStorage.getItem("Users")){
@@ -87,37 +88,59 @@ function inIt(){
   }
 }
 
+function inUser(){
+  if(JSON.parse(localStorage.getItem("ListOfUsers"))){
+    parseUser();
+  }
+}
 
 
+
+//create account Localstorage
+//skapa en funktion som kallas OM localstorage.getitem kallades.
+//ange localstorage värdet in i user arrayen.
 
 
 /****lET THE USER PUSH ACC AND PASS***/
 function createAccount(acc,password){
   users.push({account:acc, password:password});
+  // const user = {acc,password}
+  let getList = JSON.parse(localStorage.getItem("ListOfUsers"));
+  getList.push({account:acc, password:password});
+  localStorage.setItem("ListOfUsers", JSON.stringify(getList));
+
+  
+  
 }
 
 
 /*******JUST PRESS THE BUTTON AFTER INPUTS */
 buttonSubmit.addEventListener("click",function(){
+  localStorage.setItem("ListOfUsers",JSON.stringify(users));
   createAccount(createAcc.value, createPass.value);
   createAcc.value ="";
   createPass.value ="";
   divForCreate.appendChild(accDone);
   accDone.innerHTML = "Well Done";
+  parseUser();
 });
 
+function parseUser(){
+  JSON.parse(localStorage.getItem("ListOfUsers"));
+}
 /*****LOOP THROUGH ARRAY OF OBJECTS TO FIND THE RIGHT USER****/
 
 function searchUser (){
 
   const inputAcc = accountInput.value;
   const inputPass = passwordInput.value;
+  const newUsers = JSON.parse(localStorage.getItem("ListOfUsers"));
 
-  for(var i = 0; i<users.length; i++)
+  for(var i = 0; i<newUsers.length; i++)
   {
-    if (inputAcc === users[i].account && inputPass === users[i].password)
+    if (inputAcc === newUsers[i].account && inputPass === newUsers[i].password)
       {
-        const loggedIn = users[i].account; 
+        const loggedIn = newUsers[i].account; 
         /******SAVE THE VALUE OF LOGGED IN******/
         localStorage.setItem("Users", loggedIn);
         LoggedIn(); 
