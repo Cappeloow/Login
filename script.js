@@ -79,7 +79,9 @@ const users = [
   {account:"erik",password:"252252" },
   {account:"trovald",password:"525252" },
 ];
-
+if(!JSON.parse(localStorage.getItem("ListOfUsers"))){
+  localStorage.setItem("ListOfUsers", JSON.stringify(users));
+}
 
 /********Localstorage******if we called the get getItem, then we want to save loggedIn *****/
 function inIt(){
