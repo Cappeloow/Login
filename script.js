@@ -79,6 +79,7 @@ const users = [
   {account:"erik",password:"252252" },
   {account:"trovald",password:"525252" },
 ];
+
 if(!JSON.parse(localStorage.getItem("ListOfUsers"))){
   localStorage.setItem("ListOfUsers", JSON.stringify(users));
 }
@@ -96,6 +97,7 @@ function inUser(){
   }
 }
 
+inUser();
 
 
 //create account Localstorage
@@ -106,8 +108,8 @@ function inUser(){
 /****lET THE USER PUSH ACC AND PASS***/
 function createAccount(acc,password){
   users.push({account:acc, password:password});
-  // const user = {acc,password}
   let getList = JSON.parse(localStorage.getItem("ListOfUsers"));
+  // const user = {acc,password}
   getList.push({account:acc, password:password});
   localStorage.setItem("ListOfUsers", JSON.stringify(getList));
 
@@ -118,13 +120,12 @@ function createAccount(acc,password){
 
 /*******JUST PRESS THE BUTTON AFTER INPUTS */
 buttonSubmit.addEventListener("click",function(){
-  localStorage.setItem("ListOfUsers",JSON.stringify(users));
   createAccount(createAcc.value, createPass.value);
   createAcc.value ="";
   createPass.value ="";
   divForCreate.appendChild(accDone);
   accDone.innerHTML = "Well Done";
-  parseUser();
+  
 });
 
 function parseUser(){
